@@ -87,6 +87,55 @@ footer a:hover {
 </head>
 
 <body>
+    <audio id="bgm" autoplay loop muted>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicBtn"
+style="position:fixed;bottom:20px;right:20px;
+padding:10px 20px;background:hotpink;
+border:none;border-radius:10px;color:white;
+cursor:pointer;">
+🔇 Music
+</button>
+
+<script>
+const bgm = document.getElementById("bgm");
+const btn = document.getElementById("musicBtn");
+
+// 最初フェードイン準備
+bgm.volume = 0;
+
+// ページ開いたらミュート状態で再生
+window.addEventListener("load", () => {
+    bgm.play();
+});
+
+// ボタン押したらON/OFF
+btn.addEventListener("click", () => {
+
+    if (bgm.muted) {
+        bgm.muted = false;
+        btn.textContent = "🎵 Music";
+
+        // フェードイン
+        let vol = 0;
+        const fade = setInterval(() => {
+            if (vol < 0.5) {
+                vol += 0.02;
+                bgm.volume = vol;
+            } else {
+                clearInterval(fade);
+            }
+        }, 200);
+
+    } else {
+        bgm.muted = true;
+        btn.textContent = "🔇 Music";
+    }
+
+});
+</script>
     
 
 <!-- ナビ -->
