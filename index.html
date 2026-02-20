@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Lupinus Template</title>
+<title>Lupinus AI Music</title>
 
 <style>
 body {
@@ -13,24 +13,38 @@ body {
     color: white;
 }
 
+/* ナビゲーション */
+nav {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background: rgba(0,0,0,0.7);
+    padding: 15px;
+    text-align: center;
+    z-index: 1000;
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: hotpink;
+}
+
+/* ヘッダー */
 header {
     text-align: center;
-    padding: 100px 20px;
+    padding: 140px 20px 100px;
     background: linear-gradient(45deg, #ff0080, #7928ca);
 }
 
 h1 {
     font-size: 50px;
     margin: 0;
-}
-
-p {
-    font-size: 20px;
-}
-
-section {
-    padding: 60px 20px;
-    text-align: center;
 }
 
 .button {
@@ -43,34 +57,74 @@ section {
     cursor: pointer;
 }
 
-footer {
-    padding: 20px;
+.button:hover {
+    background: deeppink;
+}
+
+/* セクション */
+section {
+    padding: 60px 20px;
     text-align: center;
+}
+
+/* フッター */
+footer {
     background: #111;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+footer a {
+    color: hotpink;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
 </style>
 </head>
 
 <body>
 
+<!-- ナビ -->
+<nav>
+<a href="#about">About</a>
+<a href="#features">Features</a>
+<a href="#contact">Contact</a>
+</nav>
+
+<!-- メイン -->
 <header>
-    <h1>Lupinus AI Music</h1>
-    <p>Modern Website Template for Creators</p>
-    <button class="button">Get Started</button>
+<h1>ルピナスAIミュージック</h1>
+<p>クリエイター向けのモダンなウェブサイトテンプレート</p>
+<button class="button">始める</button>
 </header>
 
-<section>
-    <h2>About</h2>
-    <p>Perfect template for AI musicians and digital creators.</p>
+<section id="about">
+<h2>About</h2>
+<p>AIミュージシャンやデジタルクリエイターに最適なテンプレートです。</p>
 </section>
 
-<section>
-    <h2>Features</h2>
-    <p>Responsive design / Easy to edit / Clean layout</p>
+<section id="features">
+<h2>Features</h2>
+<p>レスポンシブデザイン / 編集が簡単 / すっきりしたレイアウト</p>
 </section>
 
+<section id="contact">
+<h2>Contact</h2>
+<p>Email: your@email.com</p>
+</section>
+
+<!-- フッター -->
 <footer>
-    <p>© 2026 Lupinus</p>
+<p>Follow us:</p>
+<a href="#">Instagram</a>
+<a href="#">Twitter</a>
+<a href="#">YouTube</a>
+
+<p>© 2026 Lupinus All Rights Reserved</p>
 </footer>
 
 </body>
