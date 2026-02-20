@@ -98,22 +98,10 @@ footer a:hover {
 const bgm = document.getElementById("bgm");
 const btn = document.getElementById("musicBtn");
 
-btn.onclick = function() {
-    if (bgm.paused) {
-        bgm.play();
-        btn.textContent = "🔇 Stop";
-    } else {
-        bgm.pause();
-        btn.textContent = "🎵 Music";
-    }
-}
-</script>
-
-
 // 最初フェードイン準備
 bgm.volume = 0;
 
-// ページ開いたらミュート状態で再生
+// ページ開いたら再生
 window.addEventListener("load", () => {
     bgm.play();
 });
