@@ -13,7 +13,7 @@ body {
     color: white;
 }
 
-/* ナビゲーション */
+/* ナビ */
 nav {
     position: fixed;
     width: 100%;
@@ -44,21 +44,14 @@ header {
 
 h1 {
     font-size: 50px;
-    margin: 0;
 }
 
 .button {
     padding: 15px 30px;
     background: hotpink;
-    color: white;
     border: none;
     border-radius: 10px;
-    font-size: 18px;
-    cursor: pointer;
-}
-
-.button:hover {
-    background: deeppink;
+    color: white;
 }
 
 /* セクション */
@@ -70,29 +63,40 @@ section {
 /* フッター */
 footer {
     background: #111;
-    padding: 40px 20px;
+    padding: 40px;
     text-align: center;
 }
 
-footer a {
-    color: hotpink;
-    text-decoration: none;
-    margin: 0 10px;
+/* 🎵ミュージックボタン */
+#musicBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 25px;
+    background: hotpink;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 0 15px rgba(255,105,180,0.6);
 }
 
-footer a:hover {
-    text-decoration: underline;
+#musicBtn:hover {
+    background: deeppink;
 }
 </style>
 </head>
 
 <body>
- 
+
+<!-- 音楽 -->
 <audio id="bgm" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <button id="musicBtn">🎵 Music</button>
+
 <script>
 const bgm = document.getElementById("bgm");
 const btn = document.getElementById("musicBtn");
@@ -100,7 +104,6 @@ const btn = document.getElementById("musicBtn");
 bgm.volume = 0.5;
 
 btn.addEventListener("click", () => {
-
     if (bgm.paused) {
         bgm.play();
         btn.textContent = "🔇 Stop";
@@ -108,10 +111,8 @@ btn.addEventListener("click", () => {
         bgm.pause();
         btn.textContent = "🎵 Music";
     }
-
 });
 </script>
-    
 
 <!-- ナビ -->
 <nav>
@@ -120,7 +121,6 @@ btn.addEventListener("click", () => {
 <a href="#contact">Contact</a>
 </nav>
 
-<!-- メイン -->
 <header>
 <h1>ルピナスAIミュージック</h1>
 <p>クリエイター向けのモダンなウェブサイトテンプレート</p>
@@ -142,13 +142,11 @@ btn.addEventListener("click", () => {
 <p>Email: your@email.com</p>
 </section>
 
-<!-- フッター -->
 <footer>
 <p>Follow us:</p>
 <a href="#">Instagram</a>
 <a href="#">Twitter</a>
 <a href="#">YouTube</a>
-
 <p>© 2026 Lupinus All Rights Reserved</p>
 </footer>
 
