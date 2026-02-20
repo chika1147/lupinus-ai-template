@@ -1,0 +1,21 @@
+/* ミュージックボタン */
+
+#musicBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 25px;
+    background: hotpink;
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 9999;
+    box-shadow: 0 0 15px rgba(255,105,180,0.6);
+}
+
+#musicBtn:hover {
+    background: deeppink;
+    transform: scale(1.05);
+}
