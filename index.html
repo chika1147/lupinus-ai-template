@@ -87,10 +87,7 @@ footer a:hover {
 </head>
 
 <body>
-   <audio autoplay loop>
-  <source src="music.mp3" type="audio/mpeg">
-</audio>
-
+ 
 <audio id="bgm" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
@@ -101,15 +98,15 @@ footer a:hover {
 const bgm = document.getElementById("bgm");
 const btn = document.getElementById("musicBtn");
 
-btn.addEventListener("click", () => {
-  if (bgm.paused) {
-    bgm.play();
-    btn.textContent = "🔇 Stop";
-  } else {
-    bgm.pause();
-    btn.textContent = "🎵 Music";
-  }
-});
+btn.onclick = function() {
+    if (bgm.paused) {
+        bgm.play();
+        btn.textContent = "🔇 Stop";
+    } else {
+        bgm.pause();
+        btn.textContent = "🎵 Music";
+    }
+}
 </script>
 const bgm = document.getElementById("bgm");
 const btn = document.getElementById("musicBtn");
