@@ -93,40 +93,20 @@ footer a:hover {
 </audio>
 
 <button id="musicBtn">🎵 Music</button>
-
 <script>
 const bgm = document.getElementById("bgm");
 const btn = document.getElementById("musicBtn");
 
-// 最初フェードイン準備
-bgm.volume = 0;
+bgm.volume = 0.5;
 
-// ページ開いたら再生
-window.addEventListener("load", () => {
-    bgm.play();
-});
-
-// ボタン押したらON/OFF
 btn.addEventListener("click", () => {
 
-    if (bgm.muted) {
-        bgm.muted = false;
-        btn.textContent = "🎵 Music";
-
-        // フェードイン
-        let vol = 0;
-        const fade = setInterval(() => {
-            if (vol < 0.5) {
-                vol += 0.02;
-                bgm.volume = vol;
-            } else {
-                clearInterval(fade);
-            }
-        }, 200);
-
+    if (bgm.paused) {
+        bgm.play();
+        btn.textContent = "🔇 Stop";
     } else {
-        bgm.muted = true;
-        btn.textContent = "🔇 Music";
+        bgm.pause();
+        btn.textContent = "🎵 Music";
     }
 
 });
