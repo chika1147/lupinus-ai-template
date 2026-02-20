@@ -91,21 +91,26 @@ footer a:hover {
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
-<button id="musicBtn"
-style="position:fixed;
-bottom:20px;
-right:20px;
-padding:10px 20px;
-background:hotpink;
-border:none;
-border-radius:10px;
-color:white;
-cursor:pointer;
-z-index:9999;">
-🎵 Music
-</button>
+<audio id="bgm" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button id="musicBtn">🎵 Music</button>
 
 <script>
+const bgm = document.getElementById("bgm");
+const btn = document.getElementById("musicBtn");
+
+btn.addEventListener("click", () => {
+  if (bgm.paused) {
+    bgm.play();
+    btn.textContent = "🔇 Stop";
+  } else {
+    bgm.pause();
+    btn.textContent = "🎵 Music";
+  }
+});
+</script>
 const bgm = document.getElementById("bgm");
 const btn = document.getElementById("musicBtn");
 
