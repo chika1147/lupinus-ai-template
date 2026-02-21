@@ -1,154 +1,117 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Lupinus AI Music</title>
 
 <style>
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0f0f0f;
-    color: white;
-}
+body { margin:0; font-family: Arial, sans-serif; background:#0f0f0f; color:#fff; }
 
-/* ナビ */
-nav {
-    position: fixed;
-    width: 100%;
-    top: 0;
-    background: rgba(0,0,0,0.7);
-    padding: 15px;
-    text-align: center;
-    z-index: 1000;
+nav{
+  position:fixed; top:0; width:100%;
+  background:rgba(0,0,0,0.7);
+  padding:15px; text-align:center; z-index:1000;
 }
+nav a{ color:#fff; margin:0 15px; text-decoration:none; font-weight:bold; }
+nav a:hover{ color:hotpink; }
 
-nav a {
-    color: white;
-    margin: 0 15px;
-    text-decoration: none;
-    font-weight: bold;
+header{
+  text-align:center;
+  padding:140px 20px 100px;
+  background:linear-gradient(45deg,#ff0080,#7928ca);
 }
+h1{ font-size:50px; margin:0; }
 
-nav a:hover {
-    color: hotpink;
+.button{
+  padding:15px 30px; background:hotpink; color:#fff;
+  border:none; border-radius:10px; font-size:18px; cursor:pointer;
 }
+.button:hover{ background:deeppink; }
 
-/* ヘッダー */
-header {
-    text-align: center;
-    padding: 140px 20px 100px;
-    background: linear-gradient(45deg, #ff0080, #7928ca);
-}
+section{ padding:60px 20px; text-align:center; }
+footer{ background:#111; padding:40px 20px; text-align:center; }
 
-h1 {
-    font-size: 50px;
+/* Musicボタン */
+#musicBtn{
+  position:fixed; bottom:20px; right:20px;
+  padding:12px 25px; background:hotpink;
+  border:none; border-radius:12px; color:#fff;
+  cursor:pointer; z-index:9999;
+  box-shadow:0 0 15px rgba(255,105,180,0.6);
 }
-
-.button {
-    padding: 15px 30px;
-    background: hotpink;
-    border: none;
-    border-radius: 10px;
-    color: white;
-}
-
-/* セクション */
-section {
-    padding: 60px 20px;
-    text-align: center;
-}
-
-/* フッター */
-footer {
-    background: #111;
-    padding: 40px;
-    text-align: center;
-}
-
-/* 🎵ミュージックボタン */
-#musicBtn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 12px 25px;
-    background: hotpink;
-    border: none;
-    border-radius: 12px;
-    color: white;
-    cursor: pointer;
-    z-index: 9999;
-    box-shadow: 0 0 15px rgba(255,105,180,0.6);
-}
-
-#musicBtn:hover {
-    background: deeppink;
-}
+#musicBtn:hover{ background:deeppink; transform:scale(1.05); }
 </style>
 </head>
 
 <body>
 
-<!-- 音楽 -->
+<!-- 音楽（自動再生はしない：ボタンで再生するので100%動く） -->
 <audio id="bgm" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
+<!-- ナビ -->
+<nav>
+  <a href="#about">About</a>
+  <a href="#features">Features</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<!-- メイン -->
+<header>
+  <h1>ルピナスAIミュージック</h1>
+  <p>クリエイター向けのモダンなウェブサイトテンプレート</p>
+
+  <!-- 始めるボタン（Aboutへスクロール） -->
+  <button class="button" id="startBtn">始める</button>
+</header>
+
+<section id="about">
+  <h2>About</h2>
+  <p>AIミュージシャンやデジタルクリエイターに最適なテンプレートです。</p>
+</section>
+
+<section id="features">
+  <h2>Features</h2>
+  <p>レスポンシブデザイン / 編集が簡単 / すっきりしたレイアウト</p>
+</section>
+
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Email: your@email.com</p>
+</section>
+
+<footer>
+  <p>© 2026 Lupinus All Rights Reserved</p>
+</footer>
+
+<!-- Musicボタン -->
 <button id="musicBtn">🎵 Music</button>
 
 <script>
 const bgm = document.getElementById("bgm");
-const btn = document.getElementById("musicBtn");
+const musicBtn = document.getElementById("musicBtn");
+const startBtn = document.getElementById("startBtn");
 
-bgm.volume = 0.5;
+// 始める：Aboutへスクロール
+startBtn.addEventListener("click", () => {
+  document.getElementById("about").scrollIntoView({ behavior: "smooth" });
+});
 
-btn.addEventListener("click", () => {
-    if (bgm.paused) {
-        bgm.play();
-        btn.textContent = "🔇 Stop";
-    } else {
-        bgm.pause();
-        btn.textContent = "🎵 Music";
-    }
+// 音：ボタンで再生/停止（自動再生ブロック回避）
+musicBtn.addEventListener("click", () => {
+  if (bgm.paused) {
+    bgm.volume = 0.5;
+    bgm.play();
+    musicBtn.textContent = "🔇 Stop";
+  } else {
+    bgm.pause();
+    musicBtn.textContent = "🎵 Music";
+  }
 });
 </script>
-
-<!-- ナビ -->
-<nav>
-<a href="#about">About</a>
-<a href="#features">Features</a>
-<a href="#contact">Contact</a>
-</nav>
-
-<header>
-<h1>ルピナスAIミュージック</h1>
-<p>クリエイター向けのモダンなウェブサイトテンプレート</p>
-<button class="button">始める</button>
-</header>
-
-<section id="about">
-<h2>About</h2>
-<p>AIミュージシャンやデジタルクリエイターに最適なテンプレートです。</p>
-</section>
-
-<section id="features">
-<h2>Features</h2>
-<p>レスポンシブデザイン / 編集が簡単 / すっきりしたレイアウト</p>
-</section>
-
-<section id="contact">
-<h2>Contact</h2>
-<p>Email: your@email.com</p>
-</section>
-
-<footer>
-<p>Follow us:</p>
-<a href="#">Instagram</a>
-<a href="#">Twitter</a>
-<a href="#">YouTube</a>
-<p>© 2026 Lupinus All Rights Reserved</p>
-</footer>
 
 </body>
 </html>
