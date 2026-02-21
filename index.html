@@ -48,8 +48,8 @@ footer{ background:#111; padding:40px 20px; text-align:center; }
 <body>
 
 <!-- 音楽（自動再生はしない：ボタンで再生するので100%動く） -->
-<audio id="bgm" loop>
- <source src="夜光.wav" type="audio/wav">
+<audio controls>
+  <source src="yakou.wav" type="audio/wav">
 </audio>
 
 <!-- ナビ -->
@@ -95,7 +95,7 @@ footer{ background:#111; padding:40px 20px; text-align:center; }
 
 
 <!-- Musicボタン -->
-<button onclick="playMusic()">🎵 Music</button>
+<button id="musicBtn" onclick="playMusic()">🎵 Music</button>
 
 <script>
 const bgm = document.getElementById("bgm");
