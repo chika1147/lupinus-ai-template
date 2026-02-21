@@ -95,29 +95,19 @@ footer{ background:#111; padding:40px 20px; text-align:center; }
 
 
 <!-- Musicボタン -->
-<button id="musicBtn">🎵 Music</button>
+<button onclick="playMusic()">🎵 Music</button>
 
 <script>
 const bgm = document.getElementById("bgm");
-const musicBtn = document.getElementById("musicBtn");
-const startBtn = document.getElementById("startBtn");
 
-// 始める：Aboutへスクロール
-startBtn.addEventListener("click", () => {
-  document.getElementById("about").scrollIntoView({ behavior: "smooth" });
-});
-
-// 音：ボタンで再生/停止（自動再生ブロック回避）
-musicBtn.addEventListener("click", () => {
-  if (bgm.paused) {
+function playMusic(){
+  if(bgm.paused){
     bgm.volume = 0.5;
     bgm.play();
-    musicBtn.textContent = "🔇 Stop";
-  } else {
+  }else{
     bgm.pause();
-    musicBtn.textContent = "🎵 Music";
   }
-});
+}
 </script>
 
 </body>
