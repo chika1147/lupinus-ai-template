@@ -145,9 +145,21 @@ transform:scale(1.05);
 <button id="musicBtn">🎵 Music</button>
 
 <script>
+  const volume = document.getElementById("volume");
+bgm.volume = 0.5;
+
+volume.addEventListener("input", () => {
+    bgm.volume = volume.value;
+});
+const volume = document.getElementById("volume");
 const bgm = document.getElementById("bgm");
-const musicBtn = document.getElementById("musicBtn");
-const startBtn = document.getElementById("startBtn");
+const button = document.getElementById("bgmButton");
+
+bgm.volume = 0.5;
+
+volume.addEventListener("input", () => {
+    bgm.volume = volume.value;
+});
 
 /* 音楽ON/OFF */
 musicBtn.onclick = () => {
