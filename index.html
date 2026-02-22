@@ -145,36 +145,40 @@ transform:scale(1.05);
 <button id="musicBtn">🎵 Music</button>
 
 <script>
-/* ===== 要素取得 ===== */
+document.addEventListener("DOMContentLoaded", () => {
+
 const bgm = document.getElementById("bgm");
 const volume = document.getElementById("volume");
 const musicBtn = document.getElementById("musicBtn");
 const startBtn = document.getElementById("startBtn");
 
-/* ===== 初期音量 ===== */
-bgm.volume = 0.5;
+if(bgm && volume){
+  bgm.volume = 0.5;
+  volume.addEventListener("input", () => {
+    bgm.volume = volume.value;
+  });
+}
 
-/* ===== 音量スライダー ===== */
-volume.addEventListener("input", () => {
-  bgm.volume = volume.value;
+if(musicBtn && bgm){
+  musicBtn.onclick = () => {
+    if(bgm.paused){
+      bgm.play();
+      musicBtn.textContent="🔇 Stop";
+    }else{
+      bgm.pause();
+      musicBtn.textContent="🎵 Music";
+    }
+  };
+}
+
+if(startBtn){
+  startBtn.onclick = () => {
+    document.getElementById("about")
+      ?.scrollIntoView({behavior:"smooth"});
+  };
+}
+
 });
-
-/* ===== BGM ON/OFF ===== */
-musicBtn.onclick = () => {
-  if (bgm.paused) {
-    bgm.play();
-    musicBtn.textContent = "🔇 Stop";
-  } else {
-    bgm.pause();
-    musicBtn.textContent = "🎵 Music";
-  }
-};
-
-/* ===== スクロールボタン ===== */
-startBtn.onclick = () => {
-  document.getElementById("about")
-    .scrollIntoView({ behavior: "smooth" });
-};
 </script>
 
 </body>
