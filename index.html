@@ -155,19 +155,25 @@ const musicBtn = document.getElementById("musicBtn");
 
 bgm.volume = 0.5;
 
+// 音量変更
 volume.addEventListener("input", () => {
   bgm.volume = volume.value;
 });
 
-musicBtn.addEventListener("click", () => {
-  if (bgm.paused) {
-    bgm.play();
-    musicBtn.textContent = "🔇 Stop";
-  } else {
-    bgm.pause();
-    musicBtn.textContent = "🎵 Music";
+// 再生ボタン（安定版）
+musicBtn.onclick = async () => {
+  try {
+    if (bgm.paused) {
+      await bgm.play();
+      musicBtn.textContent = "🔇 Stop";
+    } else {
+      bgm.pause();
+      musicBtn.textContent = "🎵 Music";
+    }
+  } catch (e) {
+    console.log("再生できない:", e);
   }
-});
+};
 
 });
 </script>
