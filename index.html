@@ -105,7 +105,7 @@ z-index:9999;
 <!-- BGM関係 -->
 <button id="musicBtn">▶ Play</button>
 <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5">
- <audio id="bgm" controls loop>
+ <audio id="bgm" loop>
   <source src="music/bgm.mp3" type="audio/mpeg">
 </audio>
 <!-- ナビ -->
@@ -144,12 +144,13 @@ z-index:9999;
 <a href="#">YouTube</a>
 <p>© 2026 Lupinus All Rights Reserved</p>
 </footer>
-
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+
 const bgm = document.getElementById("bgm");
 const btn = document.getElementById("musicBtn");
 
-btn.onclick = async () => {
+btn.addEventListener("click", async () => {
   try {
     if (bgm.paused) {
       await bgm.play();
@@ -161,7 +162,9 @@ btn.onclick = async () => {
   } catch(e){
     console.log("再生エラー:", e);
   }
-};
+});
+
+});
 </script>
 
 </body>
