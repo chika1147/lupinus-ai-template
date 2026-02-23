@@ -157,7 +157,7 @@ volume.addEventListener("input", () => {
   bgm.volume = volume.value;
 });
 
-musicBtn.onclick = () => {
+musicBtn.addEventListener("click", () => {
   if (bgm.paused) {
     bgm.play();
     musicBtn.textContent = "🔇 Stop";
@@ -165,7 +165,7 @@ musicBtn.onclick = () => {
     bgm.pause();
     musicBtn.textContent = "🎵 Music";
   }
-};
+});
 
 });
 </script>
