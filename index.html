@@ -108,7 +108,6 @@ z-index:9999;
  <audio id="bgm" controls loop>
   <source src="music/bgm.mp3" type="audio/mpeg">
 </audio>
-
 <!-- ナビ -->
 <nav>
 <a href="#about">About</a>
@@ -147,35 +146,22 @@ z-index:9999;
 </footer>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-
 const bgm = document.getElementById("bgm");
-const volume = document.getElementById("volume");
-const musicBtn = document.getElementById("musicBtn");
+const btn = document.getElementById("musicBtn");
 
-bgm.volume = 0.5;
-
-// 音量変更
-volume.addEventListener("input", () => {
-  bgm.volume = volume.value;
-});
-
-// 再生ボタン（安定版）
-musicBtn.onclick = async () => {
+btn.onclick = async () => {
   try {
     if (bgm.paused) {
       await bgm.play();
-      musicBtn.textContent = "🔇 Stop";
+      btn.textContent = "⏸ Stop";
     } else {
       bgm.pause();
-      musicBtn.textContent = "🎵 Music";
+      btn.textContent = "▶ Play";
     }
-  } catch (e) {
-    console.log("再生できない:", e);
+  } catch(e){
+    console.log("再生エラー:", e);
   }
 };
-
-});
 </script>
 
 </body>
