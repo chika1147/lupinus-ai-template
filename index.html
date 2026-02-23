@@ -105,7 +105,9 @@ z-index:9999;
 <!-- BGM関係 -->
 <button id="musicBtn">🎵 Music</button>
 <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5">
-<audio id="bgm" src="music/bgm.mp3" loop></audio>
+<audio id="bgm" controls loop>
+  <source src="music/bgm.mp3" type="audio/mpeg">
+</audio>
 
 <!-- ナビ -->
 <nav>
