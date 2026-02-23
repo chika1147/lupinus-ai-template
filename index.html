@@ -151,17 +151,19 @@ const bgm = document.getElementById("bgm");
 const btn = document.getElementById("musicBtn");
 
 btn.addEventListener("click", async () => {
-  try {
-    if (bgm.paused) {
+
+  if (bgm.paused) {
+    try {
       await bgm.play();
-      btn.textContent = "⏸ Stop";
-    } else {
-      bgm.pause();
-      btn.textContent = "▶ Play";
+      btn.textContent = "🔇 Stop";
+    } catch (e) {
+      console.log("再生エラー:", e);
     }
-  } catch(e){
-    console.log("再生エラー:", e);
+  } else {
+    bgm.pause();
+    btn.textContent = "🎵 Music";
   }
+
 });
 
 });
