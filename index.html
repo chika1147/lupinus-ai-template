@@ -194,83 +194,42 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-
   const bgm = document.getElementById("bgm");
-  const musicBtn = document.getElementById("musicBtn");
+  const btn = document.getElementById("musicBtn");
   const volume = document.getElementById("volume");
-  const overlay = document.getElementById("overlay");
-  const startAudioBtn = document.getElementById("startAudioBtn");
-  const startBtn = document.getElementById("startBtn");
 
   // 初期音量
   bgm.volume = 0.5;
 
   // 音量スライダー
-  volume.addEventListener("input", () => {
-    bgm.volume = Number(volume.value);
-  });
+  if (volume) {
+    volume.addEventListener("input", () => {
+      bgm.volume = Number(volume.value);
+    });
+  }
 
-  // AbortError対策：再生中フラグ
-  let isToggling = false;
+  // 連打で壊れないようにする
+  let busy = false;
 
-  async function safePlay() {
-    if (isToggling) return;
-    isToggling = true;
+  btn.addEventListener("click", async () => {
+    if (busy) return;
+    busy = true;
+
     try {
       if (bgm.paused) {
-        await bgm.play();
-        musicBtn.textContent = "🔇 Stop";
+        await bgm.play();              // ユーザークリック中なので再生OK
+        btn.textContent = "🔇 Stop";
+      } else {
+        bgm.pause();
+        btn.textContent = "🎵 Music";
       }
     } catch (e) {
-      console.log("再生エラー:", e);
+      console.log(e);
+      alert("再生できないよ。ページを更新して、もう一度ボタンを押してね！");
     } finally {
-      isToggling = false;
-    }
-  }
-
-  function safePause() {
-    if (isToggling) return;
-    isToggling = true;
-    try {
-      if (!bgm.paused) {
-        bgm.pause();
-        musicBtn.textContent = "🎵 Music";
-      }
-    } finally {
-      // pauseはawait不要なので少し待って解除
-      setTimeout(() => { isToggling = false; }, 120);
-    }
-  }
-
-  // 右下ボタン：再生/停止
-  musicBtn.addEventListener("click", async () => {
-    if (bgm.paused) {
-      await safePlay();
-    } else {
-      safePause();
+      setTimeout(() => (busy = false), 200);
     }
   });
-
-  // 最初の1回だけ：開始ボタンで再生してオーバーレイを消す
-  startAudioBtn.addEventListener("click", async () => {
-    await safePlay();
-    // 再生できたらオーバーレイを消す（失敗なら残る）
-    if (!bgm.paused) overlay.style.display = "none";
-  });
-
-  // さらに保険：どこでも1回クリックしたら開始（スマホで便利）
-  document.addEventListener("click", async () => {
-    if (overlay.style.display !== "none") {
-      await safePlay();
-      if (!bgm.paused) overlay.style.display = "none";
-    }
-  }, { once: true });
-
-  // 「始める」ボタン：スクロール
-  startBtn.addEventListener("click", () => {
-    document.getElementById("about").scrollIntoView({ behavior:"smooth" });
-  });
-
 });
 </script>
 
