@@ -1,192 +1,275 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Lupinus AI Music</title>
 
 <style>
-body{
-  margin:0;
-  font-family:Arial, sans-serif;
-  background:#0f0f0f;
-  color:white;
-}
+  body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#0f0f0f;
+    color:#fff;
+  }
 
-/* ナビ */
-nav{
-  position:fixed;
-  top:0;
-  width:100%;
-  background:rgba(0,0,0,0.7);
-  padding:15px;
-  text-align:center;
-  z-index:1000;
-}
+  nav{
+    position:fixed;
+    top:0;
+    width:100%;
+    background:rgba(0,0,0,0.7);
+    padding:15px;
+    text-align:center;
+    z-index:1000;
+  }
+  nav a{
+    color:#fff;
+    margin:0 15px;
+    text-decoration:none;
+    font-weight:bold;
+  }
+  nav a:hover{ color:hotpink; }
 
-nav a{
-  color:white;
-  margin:0 15px;
-  text-decoration:none;
-  font-weight:bold;
-}
+  header{
+    text-align:center;
+    padding:140px 20px 100px;
+    background:linear-gradient(45deg,#ff0080,#7928ca);
+  }
+  h1{ font-size:50px; margin:0; }
 
-nav a:hover{
-  color:hotpink;
-}
+  .button{
+    padding:15px 30px;
+    background:hotpink;
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    font-size:18px;
+    cursor:pointer;
+  }
+  .button:hover{ background:deeppink; }
 
-/* ヘッダー */
-header{
-  text-align:center;
-  padding:140px 20px 100px;
-  background:linear-gradient(45deg,#ff0080,#7928ca);
-}
+  section{
+    padding:60px 20px;
+    text-align:center;
+  }
 
-h1{
-  font-size:50px;
-  margin:0;
-}
+  footer{
+    background:#111;
+    padding:40px 20px;
+    text-align:center;
+  }
 
-.button{
-  padding:15px 30px;
-  background:hotpink;
-  color:white;
-  border:none;
-  border-radius:10px;
-  font-size:18px;
-  cursor:pointer;
-}
+  /* 右下プレイヤーUI */
+  #playerBox{
+    position:fixed;
+    bottom:18px;
+    right:18px;
+    z-index:9999;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    align-items:flex-end;
+  }
 
-.button:hover{
-  background:deeppink;
-}
+  #musicBtn{
+    padding:12px 20px;
+    background:hotpink;
+    border:none;
+    border-radius:12px;
+    color:white;
+    cursor:pointer;
+    box-shadow:0 0 15px rgba(255,105,180,0.6);
+  }
+  #musicBtn:hover{ background:deeppink; }
 
-/* セクション */
-section{
-  padding:60px 20px;
-  text-align:center;
-}
+  #volume{
+    width:140px;
+  }
 
-/* フッター */
-footer{
-  background:#111;
-  padding:40px 20px;
-  text-align:center;
-}
-
-/* 音楽ボタン */
-#musicBtn{
-  position:fixed;
-  bottom:20px;
-  right:20px;
-  padding:12px 25px;
-  background:hotpink;
-  border:none;
-  border-radius:12px;
-  color:white;
-  cursor:pointer;
-  z-index:9999;
-  box-shadow:0 0 15px rgba(255,105,180,0.6);
-}
-
-/* 音量スライダー */
-#volume{
-  position:fixed;
-  bottom:70px;
-  right:20px;
-  width:120px;
-  z-index:9999;
-}
+  /* クリック促すオーバーレイ（最初だけ表示） */
+  #overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.75);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:20000;
+    padding:20px;
+  }
+  #overlay .card{
+    max-width:420px;
+    width:100%;
+    background:#111;
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:16px;
+    padding:18px;
+    text-align:center;
+    box-shadow:0 10px 40px rgba(0,0,0,0.6);
+  }
+  #overlay h2{
+    margin:0 0 10px;
+    font-size:20px;
+  }
+  #overlay p{
+    margin:0 0 14px;
+    opacity:0.9;
+    line-height:1.5;
+  }
+  #startAudioBtn{
+    width:100%;
+    padding:12px 14px;
+    border:none;
+    border-radius:12px;
+    background:hotpink;
+    color:#fff;
+    cursor:pointer;
+    font-size:16px;
+  }
+  #startAudioBtn:hover{ background:deeppink; }
 </style>
 </head>
 
 <body>
 
-<!-- 🎵 音楽 -->
-<button id="musicBtn">🎵 Music</button>
-
-<input type="range"
-id="volume"
-min="0"
-max="1"
-step="0.01"
-value="0.5">
-
-<audio id="bgm" controls loop>
-  <source src="./music/bgm.mp3" type="audio/mpeg">
+<!-- 音源（controlsは付けない：衝突しやすいから） -->
+<audio id="bgm" preload="auto" loop>
+  <source src="music/bgm.mp3" type="audio/mpeg">
 </audio>
 
 <!-- ナビ -->
 <nav>
-<a href="#about">About</a>
-<a href="#features">Features</a>
-<a href="#contact">Contact</a>
+  <a href="#about">About</a>
+  <a href="#features">Features</a>
+  <a href="#contact">Contact</a>
 </nav>
 
 <!-- メイン -->
 <header>
-<h1>ルピナスAIミュージック</h1>
-<p>AI音楽クリエイター向けサイトテンプレート</p>
-<button class="button" id="startBtn">始める</button>
+  <h1>ルピナスAIミュージック</h1>
+  <p>AIクリエイター向けサイトテンプレート</p>
+  <button class="button" id="startBtn">始める</button>
 </header>
 
 <section id="about">
-<h2>About</h2>
-<p>AIミュージシャンやクリエイター向けのモダンサイト。</p>
+  <h2>About</h2>
+  <p>AIミュージシャンやデジタルクリエイターに最適なテンプレートです。</p>
 </section>
 
 <section id="features">
-<h2>Features</h2>
-<p>レスポンシブ / 簡単編集 / 海外向けデザイン</p>
+  <h2>Features</h2>
+  <p>レスポンシブ / 編集が簡単 / 海外向けデザイン</p>
 </section>
 
 <section id="contact">
-<h2>Contact</h2>
-<p>Email: your@email.com</p>
+  <h2>Contact</h2>
+  <p>Email: your@email.com</p>
 </section>
 
 <footer>
-<h3>Follow</h3>
-<a href="#">Instagram</a> |
-<a href="#">Twitter</a> |
-<a href="#">YouTube</a>
-<p>© 2026 Lupinus</p>
+  <h3>Follow us</h3>
+  <a href="#">Instagram</a> |
+  <a href="#">Twitter</a> |
+  <a href="#">YouTube</a>
+  <p>© 2026 Lupinus All Rights Reserved</p>
 </footer>
+
+<!-- 右下：プレイヤー -->
+<div id="playerBox">
+  <input type="range" id="volume" min="0" max="1" step="0.01" value="0.5" />
+  <button id="musicBtn">🎵 Music</button>
+</div>
+
+<!-- 最初だけ出る「タップして開始」 -->
+<div id="overlay">
+  <div class="card">
+    <h2>🔊 BGMを開始します</h2>
+    <p>
+      ブラウザのルールで、最初だけタップ/クリックが必要です。<br>
+      1回押したら自動でBGMが流れ続けます。
+    </p>
+    <button id="startAudioBtn">▶ タップしてBGM開始</button>
+  </div>
+</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-const bgm = document.getElementById("bgm");
-const volume = document.getElementById("volume");
-const musicBtn = document.getElementById("musicBtn");
+  const bgm = document.getElementById("bgm");
+  const musicBtn = document.getElementById("musicBtn");
+  const volume = document.getElementById("volume");
+  const overlay = document.getElementById("overlay");
+  const startAudioBtn = document.getElementById("startAudioBtn");
+  const startBtn = document.getElementById("startBtn");
 
-bgm.volume = 0.5;
+  // 初期音量
+  bgm.volume = 0.5;
 
-/* 音量調整 */
-volume.addEventListener("input", () => {
-  bgm.volume = volume.value;
-});
+  // 音量スライダー
+  volume.addEventListener("input", () => {
+    bgm.volume = Number(volume.value);
+  });
 
-/* 音楽ON/OFF */
-musicBtn.onclick = async () => {
-  try {
-    if (bgm.paused) {
-      await bgm.play();
-      musicBtn.textContent = "🔇 Stop";
-    } else {
-      bgm.pause();
-      musicBtn.textContent = "🎵 Music";
+  // AbortError対策：再生中フラグ
+  let isToggling = false;
+
+  async function safePlay() {
+    if (isToggling) return;
+    isToggling = true;
+    try {
+      if (bgm.paused) {
+        await bgm.play();
+        musicBtn.textContent = "🔇 Stop";
+      }
+    } catch (e) {
+      console.log("再生エラー:", e);
+    } finally {
+      isToggling = false;
     }
-  } catch(e) {
-    alert("一度ボタンをクリックして再生してください");
   }
-};
 
-/* スクロール */
-startBtn.onclick = () => {
-document.getElementById("about")
-.scrollIntoView({behavior:"smooth"});
-};
+  function safePause() {
+    if (isToggling) return;
+    isToggling = true;
+    try {
+      if (!bgm.paused) {
+        bgm.pause();
+        musicBtn.textContent = "🎵 Music";
+      }
+    } finally {
+      // pauseはawait不要なので少し待って解除
+      setTimeout(() => { isToggling = false; }, 120);
+    }
+  }
+
+  // 右下ボタン：再生/停止
+  musicBtn.addEventListener("click", async () => {
+    if (bgm.paused) {
+      await safePlay();
+    } else {
+      safePause();
+    }
+  });
+
+  // 最初の1回だけ：開始ボタンで再生してオーバーレイを消す
+  startAudioBtn.addEventListener("click", async () => {
+    await safePlay();
+    // 再生できたらオーバーレイを消す（失敗なら残る）
+    if (!bgm.paused) overlay.style.display = "none";
+  });
+
+  // さらに保険：どこでも1回クリックしたら開始（スマホで便利）
+  document.addEventListener("click", async () => {
+    if (overlay.style.display !== "none") {
+      await safePlay();
+      if (!bgm.paused) overlay.style.display = "none";
+    }
+  }, { once: true });
+
+  // 「始める」ボタン：スクロール
+  startBtn.addEventListener("click", () => {
+    document.getElementById("about").scrollIntoView({ behavior:"smooth" });
+  });
 
 });
 </script>
