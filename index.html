@@ -8,11 +8,12 @@
 <style>
   body{
     margin:0;
-    font-family: Arial, sans-serif;
+    font-family:Arial, sans-serif;
     background:#0f0f0f;
-    color:#fff;
+    color:white;
   }
 
+  /* ナビ */
   nav{
     position:fixed;
     top:0;
@@ -23,13 +24,14 @@
     z-index:1000;
   }
   nav a{
-    color:#fff;
+    color:white;
     margin:0 15px;
     text-decoration:none;
     font-weight:bold;
   }
   nav a:hover{ color:hotpink; }
 
+  /* ヘッダー */
   header{
     text-align:center;
     padding:140px 20px 100px;
@@ -40,7 +42,7 @@
   .button{
     padding:15px 30px;
     background:hotpink;
-    color:#fff;
+    color:white;
     border:none;
     border-radius:10px;
     font-size:18px;
@@ -48,10 +50,7 @@
   }
   .button:hover{ background:deeppink; }
 
-  section{
-    padding:60px 20px;
-    text-align:center;
-  }
+  section{ padding:60px 20px; text-align:center; }
 
   footer{
     background:#111;
@@ -59,7 +58,7 @@
     text-align:center;
   }
 
-  /* 右下プレイヤーUI */
+  /* 右下プレイヤー */
   #playerBox{
     position:fixed;
     bottom:18px;
@@ -70,7 +69,6 @@
     gap:10px;
     align-items:flex-end;
   }
-
   #musicBtn{
     padding:12px 20px;
     background:hotpink;
@@ -79,14 +77,16 @@
     color:white;
     cursor:pointer;
     box-shadow:0 0 15px rgba(255,105,180,0.6);
+    pointer-events:auto;
   }
-  #musicBtn:hover{ background:deeppink; }
+  #musicBtn:hover{ background:deeppink; transform:scale(1.05); }
 
   #volume{
-    width:140px;
+    width:160px;
+    pointer-events:auto;
   }
 
-  /* クリック促すオーバーレイ（最初だけ表示） */
+  /* 🔥 タップできない問題を確実に潰す overlay */
   #overlay{
     position:fixed;
     inset:0;
@@ -94,37 +94,41 @@
     display:flex;
     align-items:center;
     justify-content:center;
-    z-index:20000;
-    padding:20px;
+    z-index:2147483647; /* 最前面 */
+    pointer-events:auto; /* クリック受け取る */
   }
+  #overlay *{ pointer-events:auto; }
+
   #overlay .card{
-    max-width:420px;
-    width:100%;
+    max-width:520px;
+    width:calc(100% - 40px);
     background:#111;
     border:1px solid rgba(255,255,255,0.12);
-    border-radius:16px;
+    border-radius:18px;
     padding:18px;
     text-align:center;
     box-shadow:0 10px 40px rgba(0,0,0,0.6);
   }
   #overlay h2{
     margin:0 0 10px;
-    font-size:20px;
+    font-size:22px;
   }
   #overlay p{
     margin:0 0 14px;
-    opacity:0.9;
-    line-height:1.5;
+    opacity:0.92;
+    line-height:1.6;
   }
   #startAudioBtn{
     width:100%;
-    padding:12px 14px;
+    padding:14px 16px;
     border:none;
-    border-radius:12px;
+    border-radius:14px;
     background:hotpink;
     color:#fff;
     cursor:pointer;
     font-size:16px;
+    position:relative;
+    z-index:2147483647;
   }
   #startAudioBtn:hover{ background:deeppink; }
 </style>
@@ -132,9 +136,9 @@
 
 <body>
 
-<!-- 音源（controlsは付けない：衝突しやすいから） -->
-<audio id="bgm" loop preload="auto">
-  <source src="music/bgm.mp3" type="audio/mpeg">
+<!-- 音源（相対パスがGitHub Pagesで一番強い） -->
+<audio id="bgm" preload="auto" loop>
+  <source src="./music/bgm.mp3" type="audio/mpeg">
 </audio>
 
 <!-- ナビ -->
@@ -158,7 +162,7 @@
 
 <section id="features">
   <h2>Features</h2>
-  <p>レスポンシブ / 編集が簡単 / 海外向けデザイン</p>
+  <p>レスポンシブデザイン / 編集が簡単 / すっきりしたレイアウト</p>
 </section>
 
 <section id="contact">
@@ -180,14 +184,11 @@
   <button id="musicBtn">🎵 Music</button>
 </div>
 
-<!-- 最初だけ出る「タップして開始」 -->
+<!-- 最初だけ：タップして開始（ブラウザ自動再生対策） -->
 <div id="overlay">
   <div class="card">
     <h2>🔊 BGMを開始します</h2>
-    <p>
-      ブラウザのルールで、最初だけタップ/クリックが必要です。<br>
-      1回押したら自動でBGMが流れ続けます。
-    </p>
+    <p>ブラウザのルールで、最初だけタップ/クリックが必要です。<br>1回押したらBGMが流れ続けます。</p>
     <button id="startAudioBtn">▶ タップしてBGM開始</button>
   </div>
 </div>
@@ -195,40 +196,62 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
   const bgm = document.getElementById("bgm");
-  const btn = document.getElementById("musicBtn");
+  const musicBtn = document.getElementById("musicBtn");
   const volume = document.getElementById("volume");
+  const overlay = document.getElementById("overlay");
+  const startAudioBtn = document.getElementById("startAudioBtn");
+  const startBtn = document.getElementById("startBtn");
 
   // 初期音量
-  bgm.volume = 0.5;
+  bgm.volume = Number(volume.value);
 
   // 音量スライダー
-  if (volume) {
-    volume.addEventListener("input", () => {
-      bgm.volume = Number(volume.value);
-    });
-  }
+  volume.addEventListener("input", () => {
+    bgm.volume = Number(volume.value);
+  });
 
-  // 連打で壊れないようにする
+  // 連打でAbortErrorになりにくくする
   let busy = false;
 
-  btn.addEventListener("click", async () => {
+  async function playBgm() {
     if (busy) return;
     busy = true;
-
     try {
-      if (bgm.paused) {
-        await bgm.play();              // ユーザークリック中なので再生OK
-        btn.textContent = "🔇 Stop";
-      } else {
-        bgm.pause();
-        btn.textContent = "🎵 Music";
-      }
+      await bgm.play();
+      musicBtn.textContent = "🔇 Stop";
+      overlay.style.display = "none";
     } catch (e) {
-      console.log(e);
-      alert("再生できないよ。ページを更新して、もう一度ボタンを押してね！");
+      console.log("再生エラー:", e);
+      // まだブロックされる場合は overlay を残す
     } finally {
-      setTimeout(() => (busy = false), 200);
+      setTimeout(() => busy = false, 200);
     }
+  }
+
+  function pauseBgm() {
+    if (busy) return;
+    busy = true;
+    bgm.pause();
+    musicBtn.textContent = "🎵 Music";
+    setTimeout(() => busy = false, 200);
+  }
+
+  // ✅ overlayのボタン：スマホでも確実に反応する pointerdown
+  startAudioBtn.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    playBgm();
+  });
+
+  // ✅ 右下ボタン：再生/停止
+  musicBtn.addEventListener("pointerdown", async (e) => {
+    e.preventDefault();
+    if (bgm.paused) await playBgm();
+    else pauseBgm();
+  });
+
+  // 「始める」スクロール
+  startBtn.addEventListener("click", () => {
+    document.getElementById("about").scrollIntoView({ behavior: "smooth" });
   });
 });
 </script>
